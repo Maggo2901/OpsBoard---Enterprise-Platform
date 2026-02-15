@@ -1,0 +1,9 @@
+node_modules/
+frontend/dist/
+backend/data/*.sqlite
+backend/data/*.sqlite-shm
+backend/data/*.sqlite-wal
+backend/data/uploads/
+.env
+test-results/
+playwright-report/
