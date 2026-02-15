@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  opsboard-enterprise-backend:
+    image: opsboard-enterprise-backend
+    build:
+      context: ./backend
+      dockerfile: Containerfile
+    container_name: opsboard-enterprise-backend
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DB_PATH=/data/database.sqlite
+      - UPLOADS_PATH=/app/data/uploads
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:8080}
+    volumes:
+      - opsboard-enterprise-data:/data
+      - opsboard-enterprise-uploads:/app/data/uploads
+    expose:
+      - "3000"
+    restart: unless-stopped
+    # Healthcheck to ensure database is writable
+    healthcheck:
+      test: ["CMD", "test", "-f", "/data/database.sqlite"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - opsboard-enterprise
+
+  opsboard-enterprise-frontend:
+    image: opsboard-enterprise-frontend
+    build:
+      context: ./frontend
+      dockerfile: Containerfile
+    container_name: opsboard-enterprise-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - opsboard-enterprise-backend
+    restart: unless-stopped
+    volumes:
+       # Only if we want to change nginx conf without rebuild
+       # - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+       - /etc/localtime:/etc/localtime:ro
+    networks:
+      - opsboard-enterprise
+
+volumes:
+  opsboard-enterprise-data:
+  opsboard-enterprise-uploads:
+
+networks:
+  opsboard-enterprise:
+    name: opsboard-enterprise

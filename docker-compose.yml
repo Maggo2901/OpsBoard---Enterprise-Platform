@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  opsboard-enterprise-backend:
+    image: opsboard-enterprise-backend
+    build: ./backend
+    container_name: opsboard-enterprise-backend
+    volumes:
+      - ./backend/data:/app/data
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    environment:
+      - PORT=3000
+    networks:
+      - opsboard-enterprise
+
+  opsboard-enterprise-frontend:
+    image: opsboard-enterprise-frontend
+    build: ./frontend
+    container_name: opsboard-enterprise-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - opsboard-enterprise-backend
+    restart: unless-stopped
+    networks:
+      - opsboard-enterprise
+
+networks:
+  opsboard-enterprise:
+    name: opsboard-enterprise

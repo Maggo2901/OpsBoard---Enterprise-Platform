@@ -1,0 +1,17 @@
+{
+  "brand": {
+    "name": "OpsBoard",
+    "tagline": "Enterprise Platform",
+    "style": "Dark Tech Glow"
+  },
+  "colors": {
+    "primaryBlue": "#4F7CFF",
+    "bgDeep": "#0B1220",
+    "bgTop": "#0F1B2D",
+    "panel": "#121E33",
+    "textPrimary": "#E7EDF7",
+    "textSecondary": "#C6D2E3",
+    "textTertiary": "#9AA9BF",
+    "glow": "rgba(79,124,255,0.45)"
+  }
+}
