@@ -8,10 +8,11 @@ services:
     volumes:
       - ./backend/data:/app/data
     ports:
-      - "9015:3000"
+      - "${BACKEND_HOST_PORT:-9015}:3000"
     restart: unless-stopped
     environment:
       - PORT=3000
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:9010}
     networks:
       - opsboard-enterprise
 
@@ -20,7 +21,7 @@ services:
     build: ./frontend
     container_name: opsboard-enterprise-frontend
     ports:
-      - "9010:80"
+      - "${FRONTEND_HOST_PORT:-9010}:80"
     depends_on:
       - opsboard-enterprise-backend
     restart: unless-stopped

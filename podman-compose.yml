@@ -12,12 +12,12 @@ services:
       - PORT=3000
       - DB_PATH=/data/database.sqlite
       - UPLOADS_PATH=/app/data/uploads
-      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:8080}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:9010}
     volumes:
       - opsboard-enterprise-data:/data
       - opsboard-enterprise-uploads:/app/data/uploads
-    expose:
-      - "3000"
+    ports:
+      - "${BACKEND_HOST_PORT:-9015}:3000"
     restart: unless-stopped
     # Healthcheck to ensure database is writable
     healthcheck:
@@ -35,14 +35,14 @@ services:
       dockerfile: Containerfile
     container_name: opsboard-enterprise-frontend
     ports:
-      - "8080:80"
+      - "${FRONTEND_HOST_PORT:-9010}:80"
     depends_on:
       - opsboard-enterprise-backend
     restart: unless-stopped
     volumes:
-       # Only if we want to change nginx conf without rebuild
-       # - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-       - /etc/localtime:/etc/localtime:ro
+      # Only if we want to change nginx conf without rebuild
+      # - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - opsboard-enterprise
 

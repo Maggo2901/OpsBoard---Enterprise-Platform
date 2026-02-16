@@ -49,8 +49,10 @@ cp .env.production.example .env
 ```bash
 nano .env
 ```
-Update `CORS_ORIGIN` to your VM's IP address:
-`CORS_ORIGIN=http://192.168.1.50:8080` (Replace with actual VM IP)
+Set host ports and `CORS_ORIGIN` consistently (replace with your VM IP/domain):
+`FRONTEND_HOST_PORT=9010`
+`BACKEND_HOST_PORT=9015`
+`CORS_ORIGIN=http://192.168.1.50:9010`
 
 ### 4. Build and Run
 
@@ -73,7 +75,7 @@ You should see `opsboard-enterprise-backend` and `opsboard-enterprise-frontend` 
 ### 6. Access the Application
 
 Open your browser and navigate to:
-`http://<VM-IP>:8080`
+`http://<VM-IP>:9010`
 
 ## Troubleshooting
 
@@ -97,5 +99,5 @@ podman volume inspect opsboard-enterprise-data
 
 ## Security Note
 
-- The app is currently served over HTTP on port 8080.
+- The app is currently served over HTTP on `FRONTEND_HOST_PORT` (default `9010`).
 - For production use exposed to the internet, put a reverse proxy (like system Nginx or Traefik) in front to handle SSL (HTTPS).
